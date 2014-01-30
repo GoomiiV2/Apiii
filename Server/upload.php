@@ -1,41 +1,43 @@
 <?php
 	header('Content-type: application/json');
-
 	include("notepad++AutoComplete.php");
 	
 	// Consts
-	$SecretKey = "/t6dV(ga9|3c1VC]o*a#x}7Y*FzS-d%q*]t9*)m*iR%{fTaZc+h;X+:6wNC+8))T";
+	$SecretKey = ""; //Needs to match in the addon and Addii
 	$ADDII_URL = "http://109.169.89.73:8081"; // The url for the Addii IRC bot
 
 	// Get the data
 	$entityBody = json_decode(file_get_contents('php://input'), true);
-	file_put_contents("test.json", json_encode($entityBody, JSON_PRETTY_PRINT), FILE_APPEND);
 
-	// Check if this is the last one
-	if (isset($entityBody[0]) && $entityBody[0] == "END")
-	{
-		$file1 = "inprogress.json";
-		$temp = json_decode(file_get_contents($file1), true);
-		unlink($file1);
-		$file2 = "done.json";
-		file_put_contents($file2, json_encode($temp, JSON_PRETTY_PRINT));
-		
-		ProcessApiData($temp);
-	}
-	else // Add this chunk
-	{
-		$file = "inprogress.json";
-		if (file_exists($file))
-		{
-			$temp = json_decode(file_get_contents($file), true);
-			$temp = array_merge($temp, $entityBody);
-			file_put_contents($file, json_encode($temp, JSON_PRETTY_PRINT));
-		}
-		else
-		{
-			file_put_contents($file, json_encode($entityBody, JSON_PRETTY_PRINT));
-		}
-	}
+    if ($SecretKey == $key)
+    {
+
+        // Check if this is the last one
+        if (isset($entityBody[0]) && $entityBody[0] == "END")
+        {
+            $file1 = "inprogress.json";
+            $temp = json_decode(file_get_contents($file1), true);
+            unlink($file1);
+            $file2 = "done.json";
+            file_put_contents($file2, json_encode($temp, JSON_PRETTY_PRINT));
+
+            ProcessApiData($temp);
+        }
+        else // Add this chunk
+        {
+            $file = "inprogress.json";
+            if (file_exists($file))
+            {
+                $temp = json_decode(file_get_contents($file), true);
+                $temp = array_merge($temp, $entityBody);
+                file_put_contents($file, json_encode($temp, JSON_PRETTY_PRINT));
+            }
+            else
+            {
+                file_put_contents($file, json_encode($entityBody, JSON_PRETTY_PRINT));
+            }
+        }
+    }
 	
 	function ProcessApiData($data)
 	{
@@ -45,30 +47,25 @@
 		$gameVer = $data["info"]["ver"];
 		$gameEnv = $data["info"]["env"];
 		$gameLevel = $data["info"]["level"];
-		//$list = $data->info->list;
 			
 		$ver = $gameVer.":".$gameLevel;
 		$fileVer = $gameVer."_".$gameLevel;
+
+		unset($data["info"]["key"]);
 			
-		// Check if secret is good
-		if ($SecretKey == $key)
-		{
-			unset($data["info"]["key"]);
-			
-			// Check if it is a newer version
-			//if (strcmp(GetVersion($gameEnv), $ver))
-			{
-				SaveApi($gameEnv, $data, $fileVer);
-				SaveVersion($ver, $gameEnv);
-				
-				unset($data["info"]);
-				// Generate any docs that need be
-				GenrateNppAutoComplete($gameEnv, $data);
-				
-				// Addii
-				//TellAddii($gameEnv, $ver, $SecretKey);
-			}
-		}
+        // Check if it is a newer version
+        if (strcmp(GetVersion($gameEnv), $ver))
+        {
+            SaveApi($gameEnv, $data, $fileVer);
+            SaveVersion($ver, $gameEnv);
+
+            unset($data["info"]);
+            // Generate any docs that need be
+            GenrateNppAutoComplete($gameEnv, $data);
+
+            // Addii
+            TellAddii($gameEnv, $ver, $SecretKey);
+        }
 	}
 	function SaveVersion($ver, $env)
 	{

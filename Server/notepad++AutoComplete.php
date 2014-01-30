@@ -8,6 +8,7 @@
 		.'	<AutoComplete language="LUA">'.PHP_EOL
 		.'		<Environment ignoreCase="no" startFunc="(" stopFunc=")" paramSeparator="," terminal=";" additionalWordChar = "."/>'.PHP_EOL;
 
+        // Well this got messy :<
 		foreach ($data as $key => $value)
 		{
 			foreach ($value as $k => $val)
@@ -57,15 +58,5 @@
 		.'</NotepadPlus>'.PHP_EOL;
 		
 		file_put_contents($file, $str);
-	}
-	
-	function strClean($str)
-	{
-		$str = str_replace("<", "" ,$str);
-		$str = str_replace(">", "" ,$str);
-		$str = str_replace("\"", "" ,$str);
-		$str = str_replace("\"", "" ,$str);
-		
-		return $str;
 	}
 ?>
