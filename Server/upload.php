@@ -4,7 +4,7 @@
 	
 	// Consts
 	$SecretKey = ""; //Needs to match in the addon and Addii
-	$ADDII_URL = "http://109.169.89.73:8081"; // The url for the Addii IRC bot
+	$ADDII_URL = ""; // The url for the Addii IRC bot
 
 	// Get the data
 	$entityBody = json_decode(file_get_contents('php://input'), true);
