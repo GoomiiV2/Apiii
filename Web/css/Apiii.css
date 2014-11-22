@@ -1,0 +1,50 @@
+@font-face
+{
+    font-family: BEBAS___;
+    src: url('../fonts/BEBAS___.ttf');
+}
+
+#banner
+{
+    text-align: center;
+    font-size: 70px;
+    font-family: BEBAS___;
+}
+
+#bannerSubTitle
+{
+    margin-top: -5px;
+    font-size: 16px;
+}
+
+#infoPanel
+{
+    margin-top: 15px;
+}
+
+.navbar-text
+{
+    padding-left: 1px;
+    padding-right: 15px;
+}
+
+.navbarText
+{
+    color: #ffffff !important;
+}
+
+@media (min-width: 768px) { /*Should be 992px*/
+    .container {
+        width: 970px;
+    }
+}
+@media (min-width: 992px) { /*Should be 1200px*/
+    .container {
+        width: 1170px;
+    }
+}
+@media (min-width: 1600px) {
+    .container {
+        width: 1570px;
+    }
+}
