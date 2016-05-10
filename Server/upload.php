@@ -9,35 +9,34 @@
 	// Get the data
 	$entityBody = json_decode(file_get_contents('php://input'), true);
 
-    if ($SecretKey == $key)
-    {
+	if ($SecretKey == $key)
+	{
+		// Check if this is the last one
+		if (isset($entityBody[0]) && $entityBody[0] == "END")
+		{
+			$file1 = "inprogress.json";
+			$temp = json_decode(file_get_contents($file1), true);
+			unlink($file1);
+			$file2 = "done.json";
+			file_put_contents($file2, json_encode($temp, JSON_PRETTY_PRINT));
 
-        // Check if this is the last one
-        if (isset($entityBody[0]) && $entityBody[0] == "END")
-        {
-            $file1 = "inprogress.json";
-            $temp = json_decode(file_get_contents($file1), true);
-            unlink($file1);
-            $file2 = "done.json";
-            file_put_contents($file2, json_encode($temp, JSON_PRETTY_PRINT));
-
-            ProcessApiData($temp);
-        }
-        else // Add this chunk
-        {
-            $file = "inprogress.json";
-            if (file_exists($file))
-            {
-                $temp = json_decode(file_get_contents($file), true);
-                $temp = array_merge($temp, $entityBody);
-                file_put_contents($file, json_encode($temp, JSON_PRETTY_PRINT));
-            }
-            else
-            {
-                file_put_contents($file, json_encode($entityBody, JSON_PRETTY_PRINT));
-            }
-        }
-    }
+			ProcessApiData($temp);
+		}
+		else // Add this chunk
+		{
+			$file = "inprogress.json";
+			if (file_exists($file))
+			{
+				$temp = json_decode(file_get_contents($file), true);
+				$temp = array_merge($temp, $entityBody);
+				file_put_contents($file, json_encode($temp, JSON_PRETTY_PRINT));
+			}
+			else
+			{
+				file_put_contents($file, json_encode($entityBody, JSON_PRETTY_PRINT));
+			}
+		}
+	}
 	
 	function ProcessApiData($data)
 	{
@@ -52,20 +51,20 @@
 		$fileVer = $gameVer."_".$gameLevel;
 
 		unset($data["info"]["key"]);
-			
-        // Check if it is a newer version
-        if (strcmp(GetVersion($gameEnv), $ver))
-        {
-            SaveApi($gameEnv, $data, $fileVer);
-            SaveVersion($ver, $gameEnv);
 
-            unset($data["info"]);
-            // Generate any docs that need be
-            GenrateNppAutoComplete($gameEnv, $data);
+		// Check if it is a newer version
+		if (strcmp(GetVersion($gameEnv), $ver))
+		{
+			SaveApi($gameEnv, $data, $fileVer);
+			SaveVersion($ver, $gameEnv);
 
-            // Addii
-            TellAddii($gameEnv, $ver, $SecretKey);
-        }
+			unset($data["info"]);
+			// Generate any docs that need be
+			GenrateNppAutoComplete($gameEnv, $data);
+
+			// Addii
+			TellAddii($gameEnv, $ver, $SecretKey);
+		}
 	}
 	function SaveVersion($ver, $env)
 	{
@@ -81,17 +80,17 @@
 	function SaveApi($env, $api, $vera)
 	{
 		// Current
-		$file = "assests/".$env."/api-".$env.".json";
+		$file = "assets/".$env."/api-".$env.".json";
 		file_put_contents($file, json_encode($api, JSON_PRETTY_PRINT));
 		
 		// For history
-		$file2 = "assests/".$env."/api-".$env."-". $vera .".json";
+		$file2 = "assets/".$env."/api-".$env."-". $vera .".json";
 		file_put_contents($file2, json_encode($api, JSON_PRETTY_PRINT));
 	}
 	
 	function TellAddii($env, $ver, $Secret)
 	{
-        global $ADDII_URL:
+		global $ADDII_URL:
 
 		$url = $ADDII_URL.'/pts_api_update';
 		$envNice = "pts";
@@ -100,7 +99,7 @@
 			$url = $ADDII_URL.'/live_api_update';
 			$envNice = "live";
 		}
-			
+
 		$myvars = 'env=' . $envNice . '&ver=' . $ver."&secert=". urlencode($Secret);
 
 		$ch = curl_init( $url );
@@ -111,5 +110,5 @@
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
 
 		$response = curl_exec( $ch );
-}
+	}
 ?>

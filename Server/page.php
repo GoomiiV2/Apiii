@@ -24,7 +24,7 @@
 			$.ajax(
 			{
 			  dataType: "json",
-			  url: "assests/<?php echo $env ?>/api-<?php echo $env ?>.json",
+			  url: "assets/<?php echo $env ?>/api-<?php echo $env ?>.json",
 			  data: null,
 			  success: success,
 			  async:false
@@ -45,7 +45,7 @@
 				$.ajax(
 				{
 				  dataType: "json",
-				  url: "assests/production/api-production.json",
+				  url: "assets/production/api-production.json",
 				  data: null,
 				  success: successProd,
 				  async:false
@@ -155,14 +155,14 @@
 		</div>
 		<div id="Usage" class="content" style="height: 96px;">
 			<div class="assest">
-				<a href="assests/<?php echo $env ?>/npp/lua.xml">
+				<a href="assets/<?php echo $env ?>/npp/lua.xml">
 					<img src="images/npp.png" width="64px"/></br>
 				</a>
 					NotePad++
 			</div>
 			
 			<div class="assest">
-				<a href="assests/<?php echo $env ?>/api-<?php echo $env ?>.json">
+				<a href="assets/<?php echo $env ?>/api-<?php echo $env ?>.json">
 					<img src="images/json.png" width="64px"/></br>
 				</a>
 					Json
