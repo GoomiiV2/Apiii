@@ -172,7 +172,7 @@
 		
 		<div class="header" target="note"> -> Notes </div>
 		<div id="note" class="content">
-			The API here may not be complete but it should cover most of the functions and it should be up-to-date (it updates automaticly :>).</br>
+			The API here may not be complete but it should cover most of the functions and it should be up-to-date (it updates automatically :>).</br>
 			Each function links to the Wiki page for it for more info, if the page doesn't exist why not be nice and make it? :></br>
 			</br>
 			<?php 
@@ -181,14 +181,14 @@
 					echo "Any line in red is function thats not on live so shinnnny :D </br></br>";
 				}
 			?>
-			If you want an auto-complete file for your favourite editor feel free to write up a converter and message me with it on the forums.</br>
+			If you want an auto-complete file for your favorite editor feel free to write up a converter and message me with it on the forums.</br>
 			<a href="converterExample.txt">Click here for an example</a></br>
 			</br>
-			For a list of events see <a href="http://forums.firefallthegame.com/community/threads/api-info-full-patch-1667.1124741/"> Here</a> that is if it is kept up-to-date.</br>
+			For a list of events see <a href="http://forums.firefallthegame.com/community/threads/api-info-full-patch-1667.1124741/" target="_blank">here</a> that is if it is kept up-to-date.</br>
 			</br>
 			Thanks to Mavoc for the base addon side code for this :></br>
 			</br>
-			Contact: <a href="http://forums.firefallthegame.com/community/members/arkii.267799/">Arkii</a>	
+			Contact: <a href="http://forums.firefallthegame.com/community/members/arkii.267799/" target="_blank">Arkii</a>, <a href="http://forums.firefall.com/community/members/darkcisum.584641/" target="_blank">DarkCisum</a>
 		</div>
 		
 		<div class="header" target="apiView"> -> The Lua API </div>
