@@ -9,7 +9,7 @@
 	// Get the data
 	$entityBody = json_decode(file_get_contents('php://input'), true);
 
-	if ($SecretKey == $key)
+	if (isset($_GET["key"]) && $SecretKey == $_GET["key"])
 	{
 		// Check if this is the last one
 		if (isset($entityBody[0]) && $entityBody[0] == "END")
@@ -90,7 +90,7 @@
 	
 	function TellAddii($env, $ver, $Secret)
 	{
-		global $ADDII_URL:
+		global $ADDII_URL;
 
 		$url = $ADDII_URL.'/pts_api_update';
 		$envNice = "pts";
