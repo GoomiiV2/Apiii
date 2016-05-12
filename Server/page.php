@@ -78,7 +78,7 @@
 				});
 				for(var k in ordered)
 				{
-					var wikiUrl = "http://firefall-wiki.com/w/"+key+"_"+k;
+					var wikiUrl = "http://firefall.gamepedia.com/"+key+"_"+k;
 					
 					var usage = "void? (Engine didn't say)";
 					if (data[k].returnVal)
