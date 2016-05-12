@@ -72,7 +72,11 @@
 				
 				apiView.append(String.format('<h2 onClick="ToggleCat(\'{0}\')">{0}</h2>', key));
 				var cat = apiView.append(String.format('<div id="{0}"></div>', key));
-				for(var k in data)
+				var ordered = {};
+				Object.keys(data).sort().forEach(function(lkey) {
+					ordered[lkey] = data[lkey];
+				});
+				for(var k in ordered)
 				{
 					var wikiUrl = "http://firefall-wiki.com/w/"+key+"_"+k;
 					
