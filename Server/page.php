@@ -24,7 +24,7 @@
 			$.ajax(
 			{
 			  dataType: "json",
-			  url: "assests/<?php echo $env ?>/api-<?php echo $env ?>.json",
+			  url: "assets/<?php echo $env ?>/api-<?php echo $env ?>.json",
 			  data: null,
 			  success: success,
 			  async:false
@@ -45,7 +45,7 @@
 				$.ajax(
 				{
 				  dataType: "json",
-				  url: "assests/production/api-production.json",
+				  url: "assets/production/api-production.json",
 				  data: null,
 				  success: successProd,
 				  async:false
@@ -72,9 +72,13 @@
 				
 				apiView.append(String.format('<h2 onClick="ToggleCat(\'{0}\')">{0}</h2>', key));
 				var cat = apiView.append(String.format('<div id="{0}"></div>', key));
-				for(var k in data)
+				var ordered = {};
+				Object.keys(data).sort().forEach(function(lkey) {
+					ordered[lkey] = data[lkey];
+				});
+				for(var k in ordered)
 				{
-					var wikiUrl = "http://firefall-wiki.com/w/"+key+"_"+k;
+					var wikiUrl = "http://firefall.gamepedia.com/"+key+"_"+k;
 					
 					var usage = "void? (Engine didn't say)";
 					if (data[k].returnVal)
@@ -155,14 +159,14 @@
 		</div>
 		<div id="Usage" class="content" style="height: 96px;">
 			<div class="assest">
-				<a href="assests/<?php echo $env ?>/npp/lua.xml">
+				<a href="assets/<?php echo $env ?>/npp/lua.xml">
 					<img src="images/npp.png" width="64px"/></br>
 				</a>
 					NotePad++
 			</div>
 			
 			<div class="assest">
-				<a href="assests/<?php echo $env ?>/api-<?php echo $env ?>.json">
+				<a href="assets/<?php echo $env ?>/api-<?php echo $env ?>.json">
 					<img src="images/json.png" width="64px"/></br>
 				</a>
 					Json
@@ -172,7 +176,7 @@
 		
 		<div class="header" target="note"> -> Notes </div>
 		<div id="note" class="content">
-			The API here may not be complete but it should cover most of the functions and it should be up-to-date (it updates automaticly :>).</br>
+			The API here may not be complete but it should cover most of the functions and it should be up-to-date (it updates automatically :>).</br>
 			Each function links to the Wiki page for it for more info, if the page doesn't exist why not be nice and make it? :></br>
 			</br>
 			<?php 
@@ -181,14 +185,14 @@
 					echo "Any line in red is function thats not on live so shinnnny :D </br></br>";
 				}
 			?>
-			If you want an auto-complete file for your favourite editor feel free to write up a converter and message me with it on the forums.</br>
+			If you want an auto-complete file for your favorite editor feel free to write up a converter and message me with it on the forums.</br>
 			<a href="converterExample.txt">Click here for an example</a></br>
 			</br>
-			For a list of events see <a href="http://forums.firefallthegame.com/community/threads/api-info-full-patch-1667.1124741/"> Here</a> that is if it is kept up-to-date.</br>
+			For a list of events see <a href="http://forums.firefallthegame.com/community/threads/api-info-full-patch-1667.1124741/" target="_blank">here</a> that is if it is kept up-to-date.</br>
 			</br>
 			Thanks to Mavoc for the base addon side code for this :></br>
 			</br>
-			Contact: <a href="http://forums.firefallthegame.com/community/members/arkii.267799/">Arkii</a>	
+			Contact: <a href="http://forums.firefallthegame.com/community/members/arkii.267799/" target="_blank">Arkii</a>, <a href="http://forums.firefall.com/community/members/darkcisum.584641/" target="_blank">DarkCisum</a>
 		</div>
 		
 		<div class="header" target="apiView"> -> The Lua API </div>

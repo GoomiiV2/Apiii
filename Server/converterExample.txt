@@ -1,0 +1,24 @@
+<?php
+	function GenrateNppAutoComplete($env, $data)
+	{
+		$file = "assests/". $env ."/npp/lua.xml";
+		
+		$str = '<?xml version="1.0" encoding="Windows-1252" ?>'.PHP_EOL
+		.'<NotepadPlus>'.PHP_EOL
+		.'	<AutoComplete language="LUA">'.PHP_EOL
+		.'		<Environment ignoreCase="no" startFunc="(" stopFunc=")" paramSeparator="," terminal=";" additionalWordChar = "."/>'.PHP_EOL;
+
+		foreach ($data->api as $key => $value)
+		{
+			foreach ($value as &$val)
+			{
+				$str = $str. '		<KeyWord name="'.$key.".".$val.'"/>'.PHP_EOL;
+			}
+		}
+		
+		$str = $str.'	</AutoComplete>'.PHP_EOL
+		.'</NotepadPlus>'.PHP_EOL;
+		
+		file_put_contents($file, $str);
+	}
+?>

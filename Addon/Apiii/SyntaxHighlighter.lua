@@ -1,17 +1,18 @@
 require "string"
---require "math"
 require "table"
+require "lib/lib_Slash"
 
 -- ------------------------------------------
 -- CONSTANTS
 -- ------------------------------------------
-local HOST = "YOURHOST/upload.php";
-local SECERT = ""; -- Top notch security right here >,>
+local SECRET = ""; -- Top notch security right here >,>
+local HOST = "YOURHOST/upload.php?key=" .. SECRET;
 
 local blacklist = 
 {
 	["System.Logout"]=true,
 	["System.Shutdown"]=true,
+	["System.Reboot"]=true,
 	["Sinvironment.GetNumFixedCamera"]=true,
 	["Vehicle.GetAvailableComponents"]=true,
 	["System.ReloadUI"]=true,
@@ -27,26 +28,33 @@ local list = {}
 -- ------------------------------------------
 -- EVENT FUNCTIONS
 -- ------------------------------------------
-function OnPlayerReady()	
-	Component.GenerateEvent('MY_SYSTEM_MESSAGE', {text="[Apiii] Starting Api dump"});
-	
-	local opHost = System.GetOperatorSetting("frontend_host");
-	local host = "";
-	if (opHost:find("www.r5test.com")) then
-		host = "http://operator-v01-uw2-publictest.firefallthegame.com/api/v1/products/Firefall_PublicTest";
-	elseif (opHost:find("http://beta.firefallthegame.com")) then
-		host = "http://operator.firefallthegame.com/api/v1/products/Firefall_Beta";
-	end
-	
-	local status, err = pcall(HTTP.IssueRequest);
-	Component.GenerateEvent('MY_SYSTEM_MESSAGE', {text="status: "..tostring(status).." Error: "..tostring(err)});
-	
-	HTTP.IssueRequest(host, "get", nil, CB_Version);
+function OnComponentLoad()
+	LIB_SLASH.BindCallback({slash_list="/apiii", description="Export API", func=ApiDump});
+	LIB_SLASH.BindCallback({slash_list="/apiiireset", description="Reset saved version for Apii dump", func=ResetVersion});
 end
 
 -- ------------------------------------------
 -- GENERAL FUNCTIONS
 -- ------------------------------------------
+function ApiDump()
+	Component.GenerateEvent('MY_SYSTEM_MESSAGE', {text="[Apiii] Starting Api dump"});
+	
+	local opHost = System.GetOperatorSetting("ingame_host");
+	local host = "";
+	if (opHost:find("https://ingame-publictest.firefall.com/")) then
+		host = "http://operator-v01-uw2-publictest.firefall.com/api/v1/products/Firefall_PublicTest";
+	else
+		host = "http://operator.firefall.com/api/v1/products/Firefall_Beta";
+	end
+	
+	HTTP.IssueRequest(host, "GET", nil, CB_Version);
+end
+
+function ResetVersion()
+	Component.SaveSetting("version", "0");
+	Component.GenerateEvent('MY_SYSTEM_MESSAGE', {text="[Apiii] Saved version reset"});
+end
+
 function GetFunctions(group, namespace)
 	list[namespace] = {}
 	local str = ""
@@ -57,18 +65,18 @@ function GetFunctions(group, namespace)
 	end
 end
 
-function CB_Version(args, error)	
+function CB_Version(args, error)
 
 	local lastVer = Component.GetSetting("version");
 	if (lastVer == args.build) then
 		return;
 	end
-		
+	
 	Component.SaveSetting("version", args.build);
-		
+	
 	local data = {};
 	data.info = {};
-	data.info.key = SECERT;
+	data.info.key = SECRET;
 	data.info.env = args.environment;
 	data.info.ver = args.build;
 	data.info.level = args.patch_level;
@@ -134,17 +142,19 @@ function GetNamespaceUsageString(group, namespace)
 	local data = {};
 	data[namespace] = {};
 	
-	for name, func in pairs(group) do
-		if type(func) == "function" then
-			data[namespace][name] = {};
-			
-			-- Don't call things like System.Shutdown, thats not good.
-			if not (blacklist[namespace.."."..name]) then
-			
-				log(namespace.."."..name);
-				local status, err = pcall(func);
-				if (status == false) then
-					data[namespace][name] = GetFunctionInfo(err);			
+	if group ~= nil then
+		for name, func in pairs(group) do
+			if type(func) == "function" then
+				data[namespace][name] = {};
+				
+				-- Don't call things like System.Shutdown, thats not good.
+				if not (blacklist[namespace.."."..name]) then
+					
+					log(namespace.."."..name);
+					local status, err = pcall(func);
+					if status == false then
+						data[namespace][name] = GetFunctionInfo(err);
+					end
 				end
 			end
 		end
@@ -179,3 +189,4 @@ function GetFunctionInfo(useStr)
 	end
 	return data;
 end
+

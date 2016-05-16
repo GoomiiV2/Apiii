@@ -1,8 +1,10 @@
 Apiii
 =====
 
-A automatic Api document generator for Firefall.
+An automatic API document generator for Firefall.
 
-Live site here: www.firefall.NyaaSync.net/Apiii/Index.php
+Arkii's site here: http://firefall.NyaaSync.net/Apiii/
 
-Thread: www.forums.firefallthegame.com/community/threads/3085921
+RAWR's site here: http://apiii.rawr4firefall.com/
+
+Firefall forum thread: http://forums.firefall.com/community/threads/tool-apiii-firefall-lua-api-and-goodies.3085921/

@@ -11,14 +11,14 @@ xsi:schemaLocation="http://www.red5studios.com/ ../../../../schemas/component.xs
 	/>
 
 	<Events>
-		<Event name="ON_PLAYER_READY" bind="OnPlayerReady" />
+		<Event name="ON_COMPONENT_LOAD" bind="OnComponentLoad" />
 	</Events>
 
 	<Frames>
 		<PanelFrame name="main" dimensions="dock:fill" permanent="true" visible="false" depth="-100" topmost="true">
 			<Children>
 				<StillArt dimensions="dock:fill" style="texture:colors; region:white; tint:FF0000"/>
-				<Text dimensions="dock:fill" style="halign:center; valign:center; color:FFFFFF; font:UbuntuMedium_50" key="{Update Syntax Highlight}"/>
+				<Text dimensions="dock:fill" style="halign:center; valign:center; color:FFFFFF; font:UbuntuMedium_10" key="{Update Syntax Highlight}"/>
 			</Children>
 		</PanelFrame>
 	</Frames>

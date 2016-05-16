@@ -1,7 +1,7 @@
 <?php
 	function GenrateNppAutoComplete($env, $data)
 	{
-		$file = "assests/". $env ."/npp/lua.xml";
+		$file = "assets/". $env ."/npp/lua.xml";
 		
 		$str = '<?xml version="1.0" encoding="Windows-1252" ?>'.PHP_EOL
 		.'<NotepadPlus>'.PHP_EOL
